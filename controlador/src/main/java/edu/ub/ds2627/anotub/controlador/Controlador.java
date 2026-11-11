@@ -4,6 +4,7 @@ import edu.ub.ds2627.anotub.model.AnotUB;
 import edu.ub.ds2627.anotub.model.Anotadora;
 import edu.ub.ds2627.anotub.model.CalculQuotaEmpresa;
 import edu.ub.ds2627.anotub.model.excepcions.AtributFaltantException;
+import edu.ub.ds2627.anotub.model.Tasca;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -84,5 +85,21 @@ public class Controlador {
     } catch (IllegalArgumentException e) {
       return e.getMessage();
     }
+  }
+  public List<Map<String, String>> obtenirTasquesDisponibles(String nomUsuari) {
+      try {
+          List<Tasca> tasques = anotUB.obtenirTasquesDisponibles(nomUsuari);
+          List<Map<String, String>> resultat = new ArrayList<>();
+
+          for (Tasca t : tasques) {
+              Map<String, String> map = new java.util.HashMap<>();
+              map.put("id", t.getId());
+              map.put("descripcio", t.getDescripcio());
+              resultat.add(map);
+          }
+          return resultat;
+      } catch (Exception e) {
+          return new ArrayList<>();
+      }
   }
 }

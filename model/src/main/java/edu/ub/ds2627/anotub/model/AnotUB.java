@@ -8,12 +8,15 @@ import edu.ub.ds2627.anotub.model.excepcions.NomUsuariJaExistentException;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.ArrayList;
 
 public class AnotUB {
   private final CarteraAnotadores anotadores;
+  private final CatalegTasques catalegTasques;
 
   public AnotUB() {
-    this.anotadores = new CarteraAnotadores();
+      this.anotadores = new CarteraAnotadores();
+      this.catalegTasques = new CatalegTasques();
   }
 
   public void registrarAnotadora(
@@ -78,5 +81,21 @@ public class AnotUB {
 
   public boolean eliminarAnotadora(String nomUsuari) {
     return anotadores.eliminar(nomUsuari);
+  }
+
+  public void afegirTasca(String id, String descripcio, List<String> experteses) {
+      Tasca tasca = new Tasca(id, descripcio, experteses);
+      catalegTasques.afegirTasca(tasca);
+  }
+
+  public List<Tasca> obtenirTasquesDisponibles(String nomUsuari) throws AnotadoraNoExistentException {
+      Anotadora anotadora = anotadores.obtenir(nomUsuari);
+      List<Tasca> resultat = new ArrayList<>();
+
+      //l'anotadora pot tenir varies experteses per aixomirem totes les tasques per cada expertesa
+      for (String expertesa : anotadora.getExperteses()){
+          resultat.addAll(catalegTasques.obtenirTasquesPerExpertesa(expertesa));
+      }
+      return resultat;
   }
 }

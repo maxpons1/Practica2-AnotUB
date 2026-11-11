@@ -51,4 +51,13 @@ public class Anotadora {
     return this.contrasenya.equals(contrasenya);
   }
 
+  public boolean teExpertesa(String expertesa){
+      for(Expertesa e :  this.experteses){
+          if(e.getNom().equals(expertesa)){
+              return true;
+          }
+      }
+      return false;
+  }
+  public List<String> getExperteses(){ return this.experteses.stream().map(Expertesa::getNom).toList(); }
 }
